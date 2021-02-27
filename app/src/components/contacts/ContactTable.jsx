@@ -1,6 +1,27 @@
 import React from 'react';
+import {useHistory} from 'react-router-dom';
 
-const ContactTable = () => {
+const ContactTable = ({contacts}) => {
+    const history = useHistory();
+
+    const handleClick = (contact) => {
+        history.push({pathname: `/contact/${contact.id}`, state: contact});
+    };
+
+    const handleNewClick = () => {
+        history.push({pathname: `/contact`, state: undefined});
+    };
+
+    const mapToRows = (contact) => <tr key={contact.id}>
+        <td>{contact.name}</td>
+        <td>{contact.email}</td>
+        <td>
+            <button onClick={() => handleClick(contact)}>Manage</button>
+        </td>
+    </tr>;
+
+    const ContactRows = () => contacts.map(mapToRows);
+
     return (
         <table>
             <thead>
@@ -8,56 +29,15 @@ const ContactTable = () => {
                 <th>Name</th>
                 <th>Email</th>
                 <th>
-                    <button>+ Add new</button>
+                    <button onClick={handleNewClick}>+ Add new</button>
                 </th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Kosta</td>
-                <td>kosta@justbeing.dev</td>
-                <td>
-                    <button>Manage</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Kosta</td>
-                <td>kosta@justbeing.dev</td>
-                <td>
-                    <button>Manage</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Kosta</td>
-                <td>kosta@justbeing.dev</td>
-                <td>
-                    <button>Manage</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Kosta</td>
-                <td>kosta@justbeing.dev</td>
-                <td>
-                    <button>Manage</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Kosta</td>
-                <td>kosta@justbeing.dev</td>
-                <td>
-                    <button>Manage</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Kosta</td>
-                <td>kosta@justbeing.dev</td>
-                <td>
-                    <button>Manage</button>
-                </td>
-            </tr>
+            <ContactRows/>
             </tbody>
         </table>
     );
-}
+};
 
 export default ContactTable;
